@@ -19,8 +19,31 @@
         }
     </style>
 </head>
-    <button>Click Me</button>
+    <button id="installButton">Install</button>
     <script>
+          let deferredPrompt;
+          const installButton = document.getElementById('installButton');
+
+
+          window.addEventListener('load', () => {
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+            if (isStandalone) {
+                installButton.style.display = 'none';
+            }
+        });
+
+        let installableEvent;
+
+        // Gestisce il click sul pulsante installa
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            installButton.style.display = 'none';
+        });
+        
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
                 navigator.serviceWorker

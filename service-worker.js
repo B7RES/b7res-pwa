@@ -1,10 +1,7 @@
-const CACHE_NAME = 'pwa-cache-v2';
+const CACHE_NAME = 'pwa-cache-v4';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/favicon.ico',
   '/manifest.json',
   '/pwa/icon-192x192.png',
   '/pwa/icon-256x256.png',
@@ -20,7 +17,10 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        return cache.addAll(urlsToCache);
+        return cache.addAll(urlsToCache.map(url => new Request(url, { cache: 'reload' })))
+          .catch(err => {
+            console.error('Failed to cache', err);
+          });
       })
   );
 });
