@@ -2,35 +2,35 @@
   "theme_color": "#9013fe",
   "background_color": "#9013fe",
   "display": "standalone",
-  "scope": "/lofimaker/",
-  "start_url": "/lofimaker/",
+  "scope": "/pwa/",
+  "start_url": "/pwa/",
   "name": "LofiPro create lofi songs",
   "short_name": "LofiPro",
   "orientation":"portrait-primary",
   "description": "Create your own lofi songs with LofiPro",
   "icons": [
       {
-          "src": "/lofimaker/icon-192x192.png",
+          "src": "/pwa/icon-192x192.png",
           "sizes": "192x192",
           "type": "image/png"
       },
       {
-          "src": "/lofimaker/icon-256x256.png",
+          "src": "/pwa/icon-256x256.png",
           "sizes": "256x256",
           "type": "image/png"
       },
       {
-          "src": "/lofimaker/icon-384x384.png",
+          "src": "/pwa/icon-384x384.png",
           "sizes": "384x384",
           "type": "image/png"
       },
       {
-          "src": "/lofimaker/icon-512x512.png",
+          "src": "/pwa/icon-512x512.png",
           "sizes": "512x512",
           "type": "image/png"
       },
         {
-          "src": "/lofimaker/icon-192x192.png",
+          "src": "/pwa/icon-192x192.png",
           "sizes": "144x144",
           "type": "image/png",
           "purpose": "maskable any"
@@ -38,19 +38,19 @@
   ],
   "screenshots": [
       {
-        "src": "/lofimaker/screenshot1.jpg",
+        "src": "/pwa/screenshot1.jpg",
         "type": "image/jpeg"
       },
       {
-        "src": "/lofimaker/screenshot2.jpg",
+        "src": "/pwa/screenshot2.jpg",
         "type": "image/jpeg"
       },
       {
-        "src": "/lofimaker/screenshot3.jpg",
+        "src": "/pwa/screenshot3.jpg",
         "type": "image/jpeg"
       },
       {
-        "src": "/lofimaker/screenshot4.jpg",
+        "src": "/pwa/screenshot4.jpg",
         "type": "image/jpeg"
       }
     ]
