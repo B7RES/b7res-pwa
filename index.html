@@ -19,13 +19,13 @@
         }
     </style>
 </head>
+<body>
     <button id="installButton">Install</button>
     <script>
-          let deferredPrompt;
-          const installButton = document.getElementById('installButton');
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
 
-
-          window.addEventListener('load', () => {
+        window.addEventListener('load', () => {
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
             if (isStandalone) {
@@ -33,9 +33,12 @@
             }
         });
 
-        let installableEvent;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+        });
 
-        // Gestisce il click sul pulsante installa
         installButton.addEventListener('click', async () => {
             if (!deferredPrompt) return;
             deferredPrompt.prompt();
@@ -43,17 +46,15 @@
             deferredPrompt = null;
             installButton.style.display = 'none';
         });
-        
+
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
                 navigator.serviceWorker
                     .register("./service-worker.js")
                     .then(res => console.log("service worker registered"))
                     .catch(err => console.log("service worker not registered", err))
-            })
+            });
         }
-    
-     </script>
-<body>
+    </script>
 </body>
 </html>
