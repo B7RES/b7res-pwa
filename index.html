@@ -24,10 +24,12 @@
     <script>
         if (navigator.serviceWorker) {
           navigator.serviceWorker.register (
-            '/service-worker.js',
-            {scope: '/'}
+            './service-worker.js',
+            {scope: './'}
           ).then(function(reg) {
             console.log('Service Worker Registered', reg);
+          }).catch(function(error) {
+            console.error('Service Worker Registration failed', error);
           });
         }
     </script>
