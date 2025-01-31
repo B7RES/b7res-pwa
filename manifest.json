@@ -1,0 +1,57 @@
+{
+  "theme_color": "#9013fe",
+  "background_color": "#9013fe",
+  "display": "standalone",
+  "scope": "/lofimaker/",
+  "start_url": "/lofimaker/",
+  "name": "LofiPro create lofi songs",
+  "short_name": "LofiPro",
+  "orientation":"portrait-primary",
+  "description": "Create your own lofi songs with LofiPro",
+  "icons": [
+      {
+          "src": "/lofimaker/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      },
+      {
+          "src": "/lofimaker/icon-256x256.png",
+          "sizes": "256x256",
+          "type": "image/png"
+      },
+      {
+          "src": "/lofimaker/icon-384x384.png",
+          "sizes": "384x384",
+          "type": "image/png"
+      },
+      {
+          "src": "/lofimaker/icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+      },
+        {
+          "src": "/lofimaker/icon-192x192.png",
+          "sizes": "144x144",
+          "type": "image/png",
+          "purpose": "maskable any"
+        }
+  ],
+  "screenshots": [
+      {
+        "src": "/lofimaker/screenshot1.jpg",
+        "type": "image/jpeg"
+      },
+      {
+        "src": "/lofimaker/screenshot2.jpg",
+        "type": "image/jpeg"
+      },
+      {
+        "src": "/lofimaker/screenshot3.jpg",
+        "type": "image/jpeg"
+      },
+      {
+        "src": "/lofimaker/screenshot4.jpg",
+        "type": "image/jpeg"
+      }
+    ]
+}
