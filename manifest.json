@@ -10,7 +10,7 @@
   "description": "Partecipa agli eventi.Costruisci il tuo network.",
   "icons": [
       {
-          "src": "/pwa/android-icon-192x192",
+          "src": "/pwa/android-icon-192x192.png",
           "sizes": "192x192",
           "type": "image/png"
       },
