@@ -30,17 +30,15 @@
         const openAppButton = document.getElementById('openAppButton');
 
         window.addEventListener('load', () => {
-            const isFullScreen = window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.fullscreen === true;
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-            if (isFullScreen) {
+            if (isStandalone) {
                 installButton.style.display = 'none';
+                openAppButton.style.display = 'none';
             } else {
-                openAppButton.style.display = 'block';
-            }
-
-            if (localStorage.getItem('pwaInstalled') === 'true') {
-                installButton.style.display = 'none';
-                openAppButton.style.display = 'block';
+                if (localStorage.getItem('pwaInstalled') === 'true') {
+                    openAppButton.style.display = 'block';
+                }
             }
         });
 
@@ -55,7 +53,7 @@
         window.addEventListener('appinstalled', () => {
             installButton.style.display = 'none';
             localStorage.setItem('pwaInstalled', 'true');
-            openAppButton.style.display = 'block';
+            openAppButton.style.display = 'none';
         });
 
         installButton.addEventListener('click', async () => {
@@ -66,7 +64,7 @@
             if (outcome === 'accepted') {
                 installButton.style.display = 'none';
                 localStorage.setItem('pwaInstalled', 'true');
-                openAppButton.style.display = 'block';
+                openAppButton.style.display = 'none';
             }
         });
 
