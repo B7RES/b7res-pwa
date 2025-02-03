@@ -1,85 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic App</title>
-    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KICÈ Networking con superpoteri</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#9013fe">
+    <meta name="description" content="Partecipa agli eventi. Costruisci il tuo network.">
+    
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="KICÈ">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="/android-icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/ios-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/ios-icon-180x180.png">
+    
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-startup-image" href="/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
+
     <style>
-        body, html {
-            height: 100%;
+        #installPrompt {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .prompt-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .prompt-title {
+            font-size: 1.25rem;
+            font-weight: bold;
             margin: 0;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .screenshot-container {
+            position: relative;
+            height: 400px;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .screenshot {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .screenshot.active {
+            opacity: 1;
+        }
+
+        .screenshot img {
+            max-height: 80%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .screenshot-description {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            padding: 16px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+        }
+
+        .dots-container {
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            gap: 8px;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        .prompt-content {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .install-button {
+            background: #9013fe;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+
+        .install-button:hover {
+            background: #7b10d5;
         }
     </style>
 </head>
 <body>
-    <button id="installButton">Install</button>
-    <button id="openAppButton" style="display: none;">Open PWA</button>
+    <!-- Install Prompt -->
+    <div id="installPrompt">
+        <div class="prompt-container">
+            <div class="prompt-header">
+                <h2 class="prompt-title">Installa KICÈ</h2>
+                <button class="close-button" onclick="closePrompt()">×</button>
+            </div>
+            <div class="screenshot-container" id="screenshotContainer">
+                <!-- Screenshots will be inserted here by JavaScript -->
+            </div>
+            <div class="prompt-content">
+                <p id="installText"></p>
+                <button class="install-button" onclick="handleInstall()">
+                    Installa ora
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        let deferredPrompt;
-        const installButton = document.getElementById('installButton');
-        const openAppButton = document.getElementById('openAppButton');
+        const screenshots = [
+            {
+                src: '/screenshot1.jpg',
+                description: 'Scopri gli eventi nella tua zona'
+            },
+            {
+                src: '/screenshot2.jpg',
+                description: 'Connettiti con altri professionisti'
+            },
+            {
+                src: '/screenshot3.jpg',
+                description: 'Gestisci il tuo network'
+            },
+            {
+                src: '/screenshot4.jpg',
+                description: 'Personalizza il tuo profilo'
+            }
+        ];
 
-        window.addEventListener('load', () => {
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        let currentSlide = 0;
+        let deferredPrompt = null;
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-            if (isStandalone) {
-                installButton.style.display = 'none';
-                openAppButton.style.display = 'none';
+        // Initialize screenshots
+        function initializeScreenshots() {
+            const container = document.getElementById('screenshotContainer');
+            const dotsContainer = document.createElement('div');
+            dotsContainer.className = 'dots-container';
+
+            screenshots.forEach((screenshot, index) => {
+                // Create screenshot element
+                const screenshotDiv = document.createElement('div');
+                screenshotDiv.className = `screenshot ${index === 0 ? 'active' : ''}`;
+                
+                const img = document.createElement('img');
+                img.src = screenshot.src;
+                img.alt = `Screenshot ${index + 1}`;
+                
+                const description = document.createElement('div');
+                description.className = 'screenshot-description';
+                description.textContent = screenshot.description;
+                
+                screenshotDiv.appendChild(img);
+                screenshotDiv.appendChild(description);
+                container.appendChild(screenshotDiv);
+
+                // Create dot indicator
+                const dot = document.createElement('div');
+                dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                dotsContainer.appendChild(dot);
+            });
+
+            container.appendChild(dotsContainer);
+        }
+
+        // Advance to next slide
+        function nextSlide() {
+            const screenshots = document.querySelectorAll('.screenshot');
+            const dots = document.querySelectorAll('.dot');
+            
+            screenshots[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (currentSlide + 1) % screenshots.length;
+            
+            screenshots[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Show install prompt
+        function showPrompt() {
+            const prompt = document.getElementById('installPrompt');
+            const installText = document.getElementById('installText');
+            const installButton = document.querySelector('.install-button');
+            
+            if (isIOS) {
+                installText.textContent = 'Tocca il pulsante condividi e seleziona "Aggiungi a Home" per installare';
+                installButton.textContent = 'Ho capito';
             } else {
-                if (localStorage.getItem('pwaInstalled') === 'true') {
-                    openAppButton.style.display = 'block';
+                installText.textContent = 'Installa KICÈ per un accesso più veloce e tutte le funzionalità';
+                installButton.textContent = 'Installa ora';
+            }
+            
+            prompt.style.display = 'block';
+        }
+
+        // Close prompt
+        function closePrompt() {
+            document.getElementById('installPrompt').style.display = 'none';
+        }
+
+        // Handle install button click
+        async function handleInstall() {
+            if (isIOS) {
+                // iOS instructions are already shown
+                return;
+            }
+            
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    closePrompt();
                 }
+                deferredPrompt = null;
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            initializeScreenshots();
+            setInterval(nextSlide, 3000);
+
+            // Show prompt for iOS if not installed
+            if (isIOS && !window.navigator.standalone) {
+                showPrompt();
             }
         });
 
+        // Handle install prompt
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            if (localStorage.getItem('pwaInstalled') !== 'true') {
-                installButton.style.display = 'block';
-            }
+            showPrompt();
         });
 
+        // Handle successful installation
         window.addEventListener('appinstalled', () => {
-            installButton.style.display = 'none';
-            localStorage.setItem('pwaInstalled', 'true');
-            openAppButton.style.display = 'none';
+            closePrompt();
         });
-
-        installButton.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            if (outcome === 'accepted') {
-                installButton.style.display = 'none';
-                localStorage.setItem('pwaInstalled', 'true');
-                openAppButton.style.display = 'none';
-            }
-        });
-
-        openAppButton.addEventListener('click', () => {
-            window.open('https://b7res.github.io/pwa/', '_blank');
-        });
-
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", function () {
-                navigator.serviceWorker
-                    .register("./service-worker.js")
-                    .then(res => console.log("service worker registered"))
-                    .catch(err => console.log("service worker not registered", err))
-            });
-        }
     </script>
 </body>
 </html>
