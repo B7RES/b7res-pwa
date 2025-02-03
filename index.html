@@ -29,10 +29,6 @@
         const installButton = document.getElementById('installButton');
         const openAppButton = document.getElementById('openAppButton');
 
-
-
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
         window.addEventListener('load', () => {
             const isFullScreen = window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.fullscreen === true;
 
