@@ -12,24 +12,29 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
         button {
             padding: 10px 20px;
             font-size: 16px;
+            margin: 10px;
         }
     </style>
 </head>
 <body>
     <button id="installButton">Install</button>
+    <button id="openAppButton" style="display: none;">Open App</button>
     <script>
         let deferredPrompt;
         const installButton = document.getElementById('installButton');
+        const openAppButton = document.getElementById('openAppButton');
 
         window.addEventListener('load', () => {
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
             if (isStandalone) {
                 installButton.style.display = 'none';
+                openAppButton.style.display = 'block';
             }
         });
 
@@ -45,6 +50,10 @@
             const { outcome } = await deferredPrompt.userChoice;
             deferredPrompt = null;
             installButton.style.display = 'none';
+        });
+
+        openAppButton.addEventListener('click', () => {
+            window.location.href = '/pwa/';
         });
 
         if ("serviceWorker" in navigator) {
