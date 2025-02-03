@@ -1,7 +1,7 @@
 {
   "theme_color": "#9013fe",
   "background_color": "#9013fe",
-  "display": "standalone",
+  "display": "fullscreen",
   "scope": "/pwa/",
   "start_url": "/pwa/",
   "name": "KICÈ Networking con superpoteri",

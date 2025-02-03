@@ -30,11 +30,10 @@
         const openAppButton = document.getElementById('openAppButton');
 
         window.addEventListener('load', () => {
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            const isFullScreen = window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.fullscreen === true;
 
-            if (isStandalone) {
+            if (isFullScreen) {
                 installButton.style.display = 'none';
-                openAppButton.style.display = 'none';
             } else {
                 openAppButton.style.display = 'block';
             }
@@ -43,11 +42,17 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installButton.style.display = 'block';
+            if (localStorage.getItem('pwaInstalled') !== 'true') {
+                installButton.style.display = 'block';
+            }
         });
 
         window.addEventListener('appinstalled', () => {
             installButton.style.display = 'none';
+            localStorage.setItem('pwaInstalled', 'true');
+            if (isFullScreen && openAppButton) {
+                openAppButton.style.display = 'block';
+            }
         });
 
         installButton.addEventListener('click', async () => {
@@ -55,7 +60,10 @@
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
             deferredPrompt = null;
-            installButton.style.display = 'none';
+            if (outcome === 'accepted') {
+                installButton.style.display = 'none';
+                localStorage.setItem('pwaInstalled', 'true');
+            }
         });
 
         openAppButton.addEventListener('click', () => {
