@@ -46,6 +46,10 @@
             installButton.style.display = 'block';
         });
 
+        window.addEventListener('appinstalled', () => {
+            installButton.style.display = 'none';
+        });
+
         installButton.addEventListener('click', async () => {
             if (!deferredPrompt) return;
             deferredPrompt.prompt();
@@ -55,7 +59,7 @@
         });
 
         openAppButton.addEventListener('click', () => {
-            window.location.href = '/pwa/';
+            window.location.href = window.location.origin + '/pwa/';
         });
 
         if ("serviceWorker" in navigator) {
