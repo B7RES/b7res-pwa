@@ -23,7 +23,7 @@
 </head>
 <body>
     <button id="installButton">Install</button>
-    <a  id="openAppButton" style="display: none;" href='https://b7res.github.io/pwa/' target='_blank'>Open PWA</a>
+    <button id="openAppButton" style="display: none;">Open PWA</button>
     <script>
         let deferredPrompt;
         const installButton = document.getElementById('installButton');
@@ -40,6 +40,7 @@
 
             if (localStorage.getItem('pwaInstalled') === 'true') {
                 installButton.style.display = 'none';
+                openAppButton.style.display = 'block';
             }
         });
 
@@ -54,9 +55,7 @@
         window.addEventListener('appinstalled', () => {
             installButton.style.display = 'none';
             localStorage.setItem('pwaInstalled', 'true');
-            if (!isFullScreen && openAppButton) {
-                openAppButton.style.display = 'block';
-            }
+            openAppButton.style.display = 'block';
         });
 
         installButton.addEventListener('click', async () => {
@@ -67,11 +66,12 @@
             if (outcome === 'accepted') {
                 installButton.style.display = 'none';
                 localStorage.setItem('pwaInstalled', 'true');
+                openAppButton.style.display = 'block';
             }
         });
 
         openAppButton.addEventListener('click', () => {
-            window.location.href = window.location.origin + '/pwa/';
+            window.location.href = 'https://b7res.github.io/pwa/';
         });
 
         if ("serviceWorker" in navigator) {
