@@ -37,6 +37,10 @@
             } else {
                 openAppButton.style.display = 'block';
             }
+
+            if (localStorage.getItem('pwaInstalled') === 'true') {
+                installButton.style.display = 'none';
+            }
         });
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -50,7 +54,7 @@
         window.addEventListener('appinstalled', () => {
             installButton.style.display = 'none';
             localStorage.setItem('pwaInstalled', 'true');
-            if (isFullScreen && openAppButton) {
+            if (!isFullScreen && openAppButton) {
                 openAppButton.style.display = 'block';
             }
         });
