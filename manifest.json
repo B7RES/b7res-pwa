@@ -27,27 +27,27 @@
     {
       "src": "/pwa/android/android-launchericon-192-192.png",
       "sizes": "192x192",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
       "src": "/pwa/android/android-launchericon-144-144.png",
       "sizes": "144x144",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
       "src": "/pwa/android/android-launchericon-96-96.png",
       "sizes": "96x96",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
       "src": "/pwa/android/android-launchericon-72-72.png",
       "sizes": "72x72",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
       "src": "/pwa/android/android-launchericon-48-48.png",
       "sizes": "48x48",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
       "src": "/pwa/ios/16.png",
