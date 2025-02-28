@@ -11,11 +11,13 @@
  "icons": [
     {
       "src": "/pwa/android/android-launchericon-512-512.png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     },
     {
       "src": "/pwa/android/android-launchericon-192-192.png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "/pwa/android/android-launchericon-144-144.png",
@@ -131,11 +133,13 @@
     },
     {
       "src": "/pwa/ios/512.png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     },
     {
       "src": "/pwa/ios/1024.png",
-      "sizes": "1024x1024"
+      "sizes": "1024x1024",
+      "purpose": "any maskable"
     }
   ],
   "screenshots": [
