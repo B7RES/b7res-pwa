@@ -1,14 +1,8 @@
-const CACHE_NAME = 'pwa-cache-v17';
+const CACHE_NAME = 'pwa-cache-v18';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/pwa/icon-512x512.png',
-  '/pwa/screenshot1.jpg',
-  '/pwa/screenshot2.jpg',
-  '/pwa/screenshot3.jpg',
-  '/pwa/screenshot4.jpg',
-  '/pwa/android-icon-192x192.png'
 ];
 
 self.addEventListener('install', event => {
