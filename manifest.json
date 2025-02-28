@@ -22,7 +22,7 @@
     {
       "src": "/pwa/android/android-launchericon-192-192.png",
       "sizes": "192x192",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
       "src": "/pwa/android/android-launchericon-192-192.png",
