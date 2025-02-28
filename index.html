@@ -1,41 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic App</title>
     <link rel="manifest" href="manifest.json">
-
-
+    
     <!-- iOS icon support -->
     <link rel="apple-touch-icon" href="ios/180.png">
     <link rel="apple-touch-icon" sizes="152x152" href="ios/152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="ios/180.png">
     <link rel="apple-touch-icon" sizes="167x167" href="ios/167.png">
-
+    
     <!-- Safari pinned tab icon -->
     <link rel="mask-icon" href="ios/512.png" color="#9013fe">
-
+    
     <!-- Windows tile icons -->
     <meta name="msapplication-TileImage" content="windows11/Square150x150Logo.scale-200.png">
     <meta name="msapplication-TileColor" content="#9013fe">
-
+    
     <!-- Favicon for different devices -->
     <link rel="icon" type="image/png" sizes="32x32" href="ios/32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="ios/16.png">
     <link rel="icon" type="image/png" sizes="192x192" href="ios/192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="ios/512.png">
-
+    
     <!-- PWA colors -->
     <meta name="theme-color" content="#9013fe">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="KICÈ">
-
+    
     <style>
-        body,
-        html {
+        body, html {
             height: 100%;
             margin: 0;
             display: flex;
@@ -43,7 +40,6 @@
             align-items: center;
             flex-direction: column;
         }
-
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -51,27 +47,19 @@
         }
     </style>
 </head>
-
 <body>
     <button id="installButton" style="display: none;">Install</button>
-    <button id="openAppButton" style="display: none;">Open PWA</button>
 
     <input type="file" id="file">
     <script>
         let deferredPrompt;
         const installButton = document.getElementById('installButton');
-        const openAppButton = document.getElementById('openAppButton');
 
         window.addEventListener('load', () => {
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
             if (isStandalone) {
                 installButton.style.display = 'none';
-                openAppButton.style.display = 'none';
-            } else {
-                if (localStorage.getItem('pwaInstalled') === 'true') {
-                    openAppButton.style.display = 'block';
-                }
             }
         });
 
@@ -86,7 +74,6 @@
         window.addEventListener('appinstalled', () => {
             installButton.style.display = 'none';
             localStorage.setItem('pwaInstalled', 'true');
-            openAppButton.style.display = 'none';
         });
 
         installButton.addEventListener('click', async () => {
@@ -97,24 +84,17 @@
             if (outcome === 'accepted') {
                 installButton.style.display = 'none';
                 localStorage.setItem('pwaInstalled', 'true');
-                openAppButton.style.display = 'none';
             }
         });
-
-
 
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
                 navigator.serviceWorker
-                    .register("/pwa/service-worker.js")
+                    .register("./service-worker.js")
                     .then(res => console.log("service worker registered"))
                     .catch(err => console.log("service worker not registered", err))
             });
         }
-        openAppButton.addEventListener('click', () => {
-            window.open('https://b7res.github.io/pwa/', '_blank');
-        });
     </script>
 </body>
-
 </html>
